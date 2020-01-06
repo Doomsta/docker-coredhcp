@@ -1,0 +1,8 @@
+server4:
+  listen: '0.0.0.0:67'
+  interface: "eth0"
+  plugins:
+    - server_id: 10.10.10.1
+    - dns: 8.8.8.8 8.8.4.4
+    - router: 10.10.10.1
+    - netmask: 255.255.255.0

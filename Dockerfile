@@ -1,11 +1,13 @@
-FROM golang:1.13 AS build
+FROM golang:alpine AS build
 
+RUN apk add --no-cache git
 RUN cd /tmp && git clone https://github.com/coredhcp/coredhcp.git \
-  &&  cd coredhcp/cmds/coredhcp \                                                   
-  && go build -ldflags "-linkmode external -extldflags -static" -a -o /coredhcp
+  &&  cd coredhcp/cmds/coredhcp \
+  && go build -o /coredhcp
 
 
-FROM scratch
+FROM golang:alpine
 COPY --from=build /coredhcp /coredhcp
-VOLUME /etc/coredhcpEXPOSE 67
+VOLUME /etc/coredhcp
+EXPOSE 67
 CMD [ "/coredhcp" ]
